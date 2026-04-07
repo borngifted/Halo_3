@@ -590,14 +590,139 @@ body::before {
 }
 
 /* ═══════════════════════════════════════════
-   RESPONSIVE
+   RESPONSIVE — TABLET (max 960px)
 ═══════════════════════════════════════════ */
 @media (max-width: 960px) {
-  .slide { padding: 40px 28px; }
-  .two-col { grid-template-columns: 1fr; gap: 28px; }
-  .cast-grid { grid-template-columns: repeat(2,1fr); }
-  .cast-grid-3 { grid-template-columns: repeat(2,1fr); }
-  .crt-monitor { padding: 28px 24px; }
+  .slide { padding: 40px 32px; min-height: 100vh; height: auto; }
+  .two-col { grid-template-columns: 1fr; gap: 24px; }
+  .two-col.flip { direction: ltr; }
+  .cast-grid { grid-template-columns: repeat(2,1fr); gap: 12px; }
+  .cast-grid-3 { grid-template-columns: repeat(2,1fr); gap: 12px; }
+  .crt-monitor { padding: 28px 24px; max-width: 100%; }
+  .portrait-frame { height: clamp(320px, 45vh, 480px); max-width: 100%; }
+  .halo-orb { width: 200px; height: 200px; }
+  #dots { right: 10px; }
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE — MOBILE (max 640px)
+═══════════════════════════════════════════ */
+@media (max-width: 640px) {
+  /* Base slide */
+  .slide {
+    padding: 52px 18px 48px;
+    height: auto;
+    min-height: 100svh;
+    align-items: flex-start;
+    overflow-y: auto;
+  }
+
+  /* Scroll snap still works but allow taller slides */
+  html { scroll-snap-type: y proximity; }
+
+  /* Layouts */
+  .two-col,
+  .two-col.flip { grid-template-columns: 1fr; gap: 20px; direction: ltr; }
+  .two-col.flip > * { direction: ltr; }
+
+  /* Cast grids */
+  .cast-grid   { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .cast-grid-3 { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+
+  /* Portrait frame — shorter on mobile */
+  .portrait-frame {
+    height: clamp(260px, 55vw, 360px);
+    max-width: 100%;
+    width: 100%;
+  }
+
+  /* Cast portrait thumbnails */
+  .cast-portrait { height: 140px; }
+
+  /* Halo orb */
+  .halo-orb { width: 160px; height: 160px; }
+  .halo-orb svg { width: 70px; height: 70px; }
+
+  /* Boot / CRT monitor */
+  .crt-monitor {
+    padding: 20px 16px;
+    max-width: 100%;
+    border-radius: 8px;
+  }
+  .boot-logo { font-size: clamp(22px, 8vw, 42px); }
+  .boot-sub  { font-size: 10px; margin-bottom: 16px; }
+  .boot-lines { font-size: 9px; }
+  .boot-progress { height: 12px; }
+
+  /* Typography scale-down */
+  .t-xl { font-size: clamp(36px, 10vw, 56px); }
+  .t-lg { font-size: clamp(22px, 7vw, 38px); }
+  .t-md { font-size: clamp(16px, 5vw, 22px); }
+  .t-quote { font-size: clamp(13px, 4vw, 17px); }
+  .t-body { font-size: 13px; line-height: 1.7; }
+
+  /* Terminal */
+  .terminal { padding: 12px 14px; }
+  .terminal-line { font-size: 10px; line-height: 1.8; }
+
+  /* Beat rows */
+  .beat { flex-direction: column; gap: 6px; padding: 10px 12px; }
+  .beat-label { min-width: unset; }
+
+  /* Theme / comp cards */
+  .theme-card { padding: 12px 14px; }
+  .comp-card  { flex-direction: column; gap: 10px; padding: 12px; }
+  .comp-thumb { width: 48px; height: 48px; font-size: 8px; }
+
+  /* Content panel */
+  .content-panel { padding: 20px 18px; }
+
+  /* Nav dots — hide on very small screens, show progress bar only */
+  #dots { display: none; }
+  #counter { bottom: 10px; right: 16px; font-size: 9px; }
+
+  /* Scroll hint */
+  .scroll-hint { bottom: 14px; font-size: 8px; }
+
+  /* Border inset — tighter on mobile */
+  .border-inset { inset: 8px; }
+  .crt-corner-tl { top: 6px; left: 6px; width: 20px; height: 20px; }
+  .crt-corner-br { bottom: 6px; right: 6px; width: 20px; height: 20px; }
+
+  /* Supporting cast slide — allow natural height */
+  #s5 { height: auto; min-height: 100svh; padding-top: 52px; padding-bottom: 40px; }
+
+  /* Pill tags */
+  .pill { font-size: 8px; padding: 3px 8px; }
+
+  /* Rule */
+  .rule { width: 36px; }
+
+  /* Comps grid — single column on very small */
+  .comps-grid { grid-template-columns: 1fr !important; }
+
+  /* Tech grid */
+  .tech-grid { grid-template-columns: 1fr !important; }
+
+  /* Themes grid */
+  .themes-grid { grid-template-columns: 1fr !important; }
+
+  /* Story beats two-col */
+  .beats-two-col { grid-template-columns: 1fr !important; }
+
+  /* Halo slide — center orb */
+  .halo-center { justify-content: center; }
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE — VERY SMALL (max 380px)
+═══════════════════════════════════════════ */
+@media (max-width: 380px) {
+  .slide { padding: 48px 14px 40px; }
+  .cast-grid, .cast-grid-3 { grid-template-columns: 1fr; }
+  .t-xl { font-size: 30px; }
+  .t-lg { font-size: 20px; }
+  .boot-logo { font-size: 20px; letter-spacing: 0.08em; }
 }
 </style>
 </head>
@@ -725,8 +850,8 @@ body::before {
   <div class="scanline-sweep"></div>
 
   <div class="two-col flip">
-    <div class="reveal" style="display:flex;align-items:center;justify-content:center;">
-      <div class="halo-orb halo-glow" style="width:300px;height:300px;">
+    <div class="reveal halo-center" style="display:flex;align-items:center;justify-content:center;">
+      <div class="halo-orb halo-glow" style="width:min(300px,70vw);height:min(300px,70vw);">
         <svg viewBox="0 0 120 120" fill="none" width="100" height="100">
           <ellipse cx="60" cy="24" rx="44" ry="16" stroke="#C9A84C" stroke-width="1.5" fill="none"/>
           <ellipse cx="60" cy="24" rx="44" ry="16" stroke="#C9A84C" stroke-width="0.5" fill="none" opacity="0.3" transform="rotate(15 60 24)"/>
@@ -813,7 +938,7 @@ body::before {
   <div class="crt-corner-br"></div>
 
   <div style="width:100%;max-width:1400px;">
-    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:8px;">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;margin-bottom:8px;gap:6px;">
       <div>
         <p class="reveal t-label">The World Around Jade</p>
         <h2 class="reveal d1 t-lg" style="font-size:clamp(22px,3.2vw,44px);margin-top:10px;">SUPPORTING CAST.</h2>
@@ -907,8 +1032,8 @@ body::before {
      S6 — ACT ONE: AMBITION
 ═══════════════════════════════════════════════════ -->
 <section class="slide" id="s6" data-i="6">
-  <!  <!-- Act One — boardroom presentation -->
-  <div class="scene-bg" style="background-image:url('scene_act1.jpg'); background-position: center center;"></div>>
+  <!-- Act One — boardroom presentation -->
+  <div class="scene-bg" style="background-image:url('scene_act1.jpg'); background-position: center center;"></div>
   <div class="scene-overlay" style="background: linear-gradient(to right, rgba(7,6,10,0.96) 0%, rgba(7,6,10,0.6) 55%, rgba(7,6,10,0.9) 100%);"></div>
   <div class="border-inset"></div>
   <div class="crt-corner-tl"></div>
@@ -938,7 +1063,7 @@ body::before {
 ═══════════════════════════════════════════════════ -->
 <section class="slide" id="s7" data-i="7">
   <!-- Act Two — crashed car on Atlanta highway -->
-  <div class="scene-bg" style="background-image:url('scene_act2.jpg'); background-position: center center;"></div>>
+  <div class="scene-bg" style="background-image:url('scene_act2.jpg'); background-position: center center;"></div>
   <div class="scene-overlay" style="background: linear-gradient(to left, rgba(7,6,10,0.96) 0%, rgba(7,6,10,0.6) 55%, rgba(7,6,10,0.9) 100%);"></div>
   <div class="border-inset"></div>
   <div class="crt-corner-tl"></div>
@@ -975,8 +1100,8 @@ body::before {
      S8 — ACT THREE: RECKONING
 ═══════════════════════════════════════════════════ -->
 <section class="slide" id="s8" data-i="8">
-  <!-  <!-- Act Three — woman running through mansion corridor -->
-  <div class="scene-bg" style="background-image:url('scene_act3.jpg'); background-position: center center;"></div>>
+  <!-- Act Three — woman running through mansion corridor -->
+  <div class="scene-bg" style="background-image:url('scene_act3.jpg'); background-position: center center;"></div>
   <div class="scene-overlay" style="background: linear-gradient(to right, rgba(7,6,10,0.96) 0%, rgba(7,6,10,0.65) 55%, rgba(7,6,10,0.9) 100%);"></div>
   <div class="border-inset"></div>
   <div class="crt-corner-tl"></div>
@@ -1154,7 +1279,7 @@ body::before {
   <div class="scanline-sweep"></div>
 
   <div style="max-width:900px;width:100%;display:flex;flex-direction:column;gap:28px;align-items:center;text-align:center;">
-    <div class="halo-orb halo-glow reveal" style="width:160px;height:160px;">
+    <div class="halo-orb halo-glow reveal" style="width:min(160px,40vw);height:min(160px,40vw);">
       <svg viewBox="0 0 80 80" fill="none" width="70" height="70">
         <ellipse cx="40" cy="16" rx="30" ry="11" stroke="#C9A84C" stroke-width="1.5" fill="none"/>
         <circle cx="40" cy="50" r="12" stroke="#C9A84C" stroke-width="1" fill="rgba(201,168,76,0.08)"/>
@@ -1219,6 +1344,20 @@ const io = new IntersectionObserver((entries) => {
 }, { threshold: 0.35 });
 
 slides.forEach(s => io.observe(s));
+
+// Touch swipe navigation for mobile
+let touchStartY = 0;
+document.addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY; }, { passive: true });
+document.addEventListener('touchend', e => {
+  const diff = touchStartY - e.changedTouches[0].clientY;
+  if (Math.abs(diff) < 50) return;
+  const current = slides.findIndex(s => {
+    const r = s.getBoundingClientRect();
+    return r.top >= -r.height / 2 && r.top < r.height / 2;
+  });
+  if (diff > 0 && current < total - 1) slides[current + 1].scrollIntoView({ behavior: 'smooth' });
+  if (diff < 0 && current > 0) slides[current - 1].scrollIntoView({ behavior: 'smooth' });
+}, { passive: true });
 
 // Keyboard navigation
 document.addEventListener('keydown', e => {
