@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE PERFECT HALO — Pitch Deck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   RESET & ROOT
+═══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black:       #07060A;
+  --near-black:  #0A090E;
+  --dark:        #100E18;
+  --indigo:      #1A1840;
+  --gold:        #C9A84C;
+  --gold-light:  #E8C96A;
+  --gold-dim:    #7A6030;
+  --gold-faint:  rgba(201,168,76,0.07);
+  --cream:       #F0E0C0;
+  --danger:      #8B1A1A;
+  --danger-glow: rgba(139,26,26,0.18);
+  --mono:        'Share Tech Mono', monospace;
+  --serif:       'Playfair Display', serif;
+  --italic:      'Cormorant Garamond', serif;
+  --sans:        'Inter', sans-serif;
+}
+
+html {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--sans);
+  background: var(--black);
+  color: #D4BC90;
+  overflow-x: hidden;
+}
+
+/* Global scanlines */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.28) 2px, rgba(0,0,0,0.28) 4px);
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.15;
+}
+
+/* ═══════════════════════════════════════════
+   SLIDE BASE
+═══════════════════════════════════════════ */
+.slide {
+  height: 100vh;
+  min-height: 640px;
+  scroll-snap-align: start;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 60px 80px;
+}
+
+/* Full-bleed scene background */
+.scene-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  z-index: 0;
+  transition: transform 8s ease;
+}
+.slide:hover .scene-bg { transform: scale(1.04); }
+
+/* Dark overlay on top of scene */
+.scene-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* CRT vignette */
+.slide::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.82) 100%);
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Grain noise */
+.slide::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 3;
+}
+
+.slide > *:not(.scene-bg):not(.scene-overlay):not(.border-inset):not(.crt-corner-tl):not(.crt-corner-br):not(.scanline-sweep) {
+  position: relative;
+  z-index: 10;
+}
+
+/* Gold border inset */
+.border-inset {
+  position: absolute;
+  inset: 16px;
+  border: 1px solid rgba(201,168,76,0.22);
+  pointer-events: none;
+  z-index: 6;
+}
+
+/* CRT corner brackets */
+.crt-corner-tl,
+.crt-corner-br {
+  position: absolute;
+  width: 32px; height: 32px;
+  z-index: 7;
+  pointer-events: none;
+}
+.crt-corner-tl { top: 12px; left: 12px; border-top: 2px solid var(--gold-dim); border-left: 2px solid var(--gold-dim); }
+.crt-corner-br { bottom: 12px; right: 12px; border-bottom: 2px solid var(--gold-dim); border-right: 2px solid var(--gold-dim); }
+
+/* Scanline sweep */
+@keyframes scanline-move { 0% { top: -4%; } 100% { top: 104%; } }
+.scanline-sweep {
+  position: absolute;
+  left: 0; width: 100%; height: 3px;
+  background: linear-gradient(to bottom, transparent, rgba(180,175,255,0.12), transparent);
+  animation: scanline-move 5s linear infinite;
+  pointer-events: none;
+  z-index: 8;
+}
+
+/* ═══════════════════════════════════════════
+   TYPOGRAPHY
+═══════════════════════════════════════════ */
+.t-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+}
+
+.t-xl {
+  font-family: var(--serif);
+  font-size: clamp(52px, 7.5vw, 108px);
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.t-lg {
+  font-family: var(--serif);
+  font-size: clamp(30px, 4.5vw, 62px);
+  font-weight: 700;
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.t-md {
+  font-family: var(--serif);
+  font-size: clamp(18px, 2.2vw, 28px);
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.t-quote {
+  font-family: var(--italic);
+  font-style: italic;
+  font-size: clamp(15px, 1.8vw, 22px);
+  font-weight: 300;
+  color: var(--cream);
+  line-height: 1.55;
+}
+
+.t-body {
+  font-family: var(--sans);
+  font-size: clamp(13px, 1.15vw, 15px);
+  font-weight: 300;
+  line-height: 1.85;
+  color: #C4A870;
+}
+
+.t-sub {
+  font-family: var(--italic);
+  font-style: italic;
+  font-size: clamp(13px, 1.4vw, 17px);
+  font-weight: 300;
+  color: var(--cream);
+}
+
+/* ═══════════════════════════════════════════
+   UTILITIES
+═══════════════════════════════════════════ */
+.rule { width: 56px; height: 1px; background: var(--gold); }
+.rule-full { width: 100%; height: 1px; background: linear-gradient(to right, var(--gold), transparent); }
+
+.gold-frame {
+  border: 1px solid var(--gold);
+  box-shadow: 0 0 0 3px #0A0900, 0 0 0 4px var(--gold-dim), 0 0 32px rgba(201,168,76,0.18), inset 0 0 0 1px rgba(201,168,76,0.1);
+  overflow: hidden;
+  background: #0A0900;
+}
+
+.pill {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  background: var(--gold);
+  color: var(--near-black);
+}
+.pill.danger  { background: rgba(139,26,26,0.55); color: #D07070; border: 1px solid #8B1A1A; }
+.pill.hero    { background: rgba(20,60,30,0.55);  color: #70C090; border: 1px solid #2A6040; }
+.pill.neutral { background: transparent; color: var(--gold); border: 1px solid var(--gold-dim); }
+.pill.crt     { background: rgba(59,56,144,0.45); color: #A0A0FF; border: 1px solid #3B3890; }
+
+/* ═══════════════════════════════════════════
+   ANIMATIONS
+═══════════════════════════════════════════ */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.reveal.in { opacity: 1; transform: translateY(0); }
+.d1 { transition-delay: 0.10s; }
+.d2 { transition-delay: 0.22s; }
+.d3 { transition-delay: 0.34s; }
+.d4 { transition-delay: 0.46s; }
+.d5 { transition-delay: 0.58s; }
+.d6 { transition-delay: 0.70s; }
+.d7 { transition-delay: 0.82s; }
+
+@keyframes shimmer {
+  0%   { background-position: -300% center; }
+  100% { background-position: 300% center; }
+}
+.gold-shimmer {
+  background: linear-gradient(90deg, #7A6030 0%, #E8C96A 25%, #C9A84C 50%, #E8C96A 75%, #7A6030 100%);
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 5s linear infinite;
+}
+
+@keyframes halo-pulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(201,168,76,0.3), 0 0 60px rgba(201,168,76,0.1); }
+  50%       { box-shadow: 0 0 50px rgba(201,168,76,0.6), 0 0 100px rgba(201,168,76,0.22); }
+}
+.halo-glow { animation: halo-pulse 3.2s ease-in-out infinite; }
+
+@keyframes glitch {
+  0%   { clip-path: inset(0 0 98% 0); transform: translateX(-4px); }
+  10%  { clip-path: inset(30% 0 60% 0); transform: translateX(4px); }
+  20%  { clip-path: inset(60% 0 30% 0); transform: translateX(-2px); }
+  30%  { clip-path: inset(0 0 98% 0); transform: translateX(0); }
+  100% { clip-path: inset(0 0 98% 0); transform: translateX(0); }
+}
+@keyframes glitch2 {
+  0%   { clip-path: inset(50% 0 40% 0); transform: translateX(4px); opacity: 0.7; }
+  10%  { clip-path: inset(10% 0 80% 0); transform: translateX(-4px); opacity: 0.5; }
+  20%  { clip-path: inset(80% 0 10% 0); transform: translateX(2px); opacity: 0.7; }
+  30%  { clip-path: inset(50% 0 40% 0); transform: translateX(0); opacity: 0; }
+  100% { opacity: 0; }
+}
+
+.glitch-wrap { position: relative; display: inline-block; }
+.glitch-wrap::before,
+.glitch-wrap::after {
+  content: attr(data-text);
+  position: absolute; top: 0; left: 0;
+  width: 100%;
+  font-family: inherit; font-size: inherit; font-weight: inherit;
+  line-height: inherit; text-transform: inherit; letter-spacing: inherit;
+  color: inherit; -webkit-text-fill-color: inherit;
+  background: inherit; -webkit-background-clip: inherit; background-clip: inherit;
+}
+.glitch-wrap::before {
+  color: #FF6060; -webkit-text-fill-color: #FF6060;
+  background: none; -webkit-background-clip: unset; background-clip: unset;
+  animation: glitch 7s infinite; animation-delay: 3s;
+}
+.glitch-wrap::after {
+  color: #60A0FF; -webkit-text-fill-color: #60A0FF;
+  background: none; -webkit-background-clip: unset; background-clip: unset;
+  animation: glitch2 7s infinite; animation-delay: 3s;
+}
+
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+.cursor::after { content: '_'; animation: blink 1s step-end infinite; color: var(--gold); }
+
+@keyframes progress-fill { from { width: 0; } to { width: 100%; } }
+
+/* ═══════════════════════════════════════════
+   NAV + PROGRESS
+═══════════════════════════════════════════ */
+#bar {
+  position: fixed; top: 0; left: 0;
+  height: 2px;
+  background: linear-gradient(to right, var(--gold-dim), var(--gold));
+  z-index: 200; transition: width 0.4s;
+}
+#dots {
+  position: fixed; right: 20px; top: 50%;
+  transform: translateY(-50%);
+  z-index: 200;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--gold-dim); cursor: pointer;
+  transition: all 0.3s; border: none; padding: 0;
+}
+.dot.on { background: var(--gold); transform: scale(1.8); }
+#counter {
+  position: fixed; bottom: 22px; right: 36px;
+  font-family: var(--mono); font-size: 10px;
+  color: var(--gold-dim); z-index: 200; letter-spacing: 0.18em;
+}
+
+/* ═══════════════════════════════════════════
+   TERMINAL BLOCK
+═══════════════════════════════════════════ */
+.terminal {
+  background: rgba(6,5,14,0.88);
+  border: 1px solid rgba(201,168,76,0.3);
+  padding: 18px 22px;
+  backdrop-filter: blur(4px);
+}
+.terminal::before {
+  content: '● ● ●';
+  display: block; font-size: 8px;
+  color: var(--gold-dim); margin-bottom: 12px; letter-spacing: 4px;
+}
+.terminal-line {
+  font-family: var(--mono); font-size: 12px;
+  line-height: 2; color: #A8C8A0;
+}
+.terminal-line .prompt { color: var(--gold-dim); }
+.terminal-line .val { color: #E8C96A; }
+.terminal-line .alert { color: #D07070; }
+.terminal-line .active { color: #70C090; }
+.terminal-line .classified { color: #A070C0; }
+.terminal-line .warn { color: #C0A040; }
+
+/* ═══════════════════════════════════════════
+   BEAT ROWS
+═══════════════════════════════════════════ */
+.beat {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding: 12px 16px;
+  border: 1px solid rgba(201,168,76,0.25);
+  background: rgba(201,168,76,0.05);
+  backdrop-filter: blur(4px);
+}
+.beat-label {
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--gold); min-width: 88px;
+  padding-top: 2px; flex-shrink: 0;
+}
+.danger-beat {
+  padding: 12px 16px;
+  border-left: 2px solid var(--danger);
+  background: var(--danger-glow);
+  backdrop-filter: blur(4px);
+}
+
+/* ═══════════════════════════════════════════
+   PORTRAIT FRAME — FIXED
+═══════════════════════════════════════════ */
+.portrait-frame {
+  width: 100%;
+  max-width: 420px;
+  /* Fixed height for consistent framing */
+  height: clamp(480px, 55vh, 620px);
+  overflow: hidden;
+  background: #0A0900;
+}
+.portrait-frame img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: top center;
+}
+/* Special handling for small/landscape images */
+.portrait-frame.contain img {
+  object-fit: contain;
+  object-position: center center;
+  background: #0A0900;
+}
+.portrait-frame.landscape img {
+  object-fit: cover;
+  object-position: center 20%;
+}
+
+/* CAST CARD portrait — smaller */
+.cast-portrait {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  background: #0A0900;
+}
+.cast-portrait img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: top center;
+}
+.cast-portrait.landscape img {
+  object-position: center 25%;
+}
+.cast-portrait.contain img {
+  object-fit: contain;
+  object-position: center center;
+}
+
+/* ═══════════════════════════════════════════
+   LAYOUT HELPERS
+═══════════════════════════════════════════ */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+  width: 100%;
+  max-width: 1400px;
+}
+.two-col.flip { direction: rtl; }
+.two-col.flip > * { direction: ltr; }
+
+/* ═══════════════════════════════════════════
+   CAST GRID
+═══════════════════════════════════════════ */
+.cast-grid   { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.cast-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.cast-card   { display: flex; flex-direction: column; gap: 8px; }
+
+/* ═══════════════════════════════════════════
+   THEME / COMP CARDS
+═══════════════════════════════════════════ */
+.theme-card {
+  padding: 16px 18px;
+  border: 1px solid rgba(201,168,76,0.22);
+  position: relative;
+  background: rgba(6,5,14,0.72);
+  backdrop-filter: blur(6px);
+}
+.theme-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0;
+  width: 3px; height: 100%;
+  background: var(--gold);
+}
+
+.comp-card {
+  border: 1px solid rgba(201,168,76,0.22);
+  display: flex; gap: 16px; padding: 14px;
+  align-items: flex-start;
+  background: rgba(6,5,14,0.72);
+  backdrop-filter: blur(6px);
+}
+.comp-thumb {
+  width: 64px; height: 64px; flex-shrink: 0;
+  background: rgba(201,168,76,0.08);
+  border: 1px solid var(--gold-dim);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 9px;
+  text-align: center; color: var(--gold);
+  text-transform: uppercase; padding: 6px; line-height: 1.3;
+}
+
+/* ═══════════════════════════════════════════
+   HALO ORB
+═══════════════════════════════════════════ */
+.halo-orb {
+  width: 280px; height: 280px;
+  border-radius: 50%;
+  border: 1px solid var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, rgba(10,9,20,0.9) 60%, transparent 100%);
+  position: relative;
+}
+.halo-orb::before {
+  content: ''; position: absolute; inset: -14px;
+  border-radius: 50%; border: 1px solid rgba(201,168,76,0.14);
+}
+.halo-orb::after {
+  content: ''; position: absolute; inset: -28px;
+  border-radius: 50%; border: 1px solid rgba(201,168,76,0.06);
+}
+
+/* ═══════════════════════════════════════════
+   BOOT SCREEN
+═══════════════════════════════════════════ */
+.crt-monitor {
+  border: 3px solid #2A2860;
+  border-radius: 12px;
+  padding: 44px 60px;
+  background: rgba(13,12,40,0.88);
+  box-shadow: 0 0 0 8px rgba(10,9,32,0.9), 0 0 0 12px #1A1840, 0 0 80px rgba(80,75,200,0.35), inset 0 0 40px rgba(0,0,0,0.5);
+  position: relative;
+  width: 100%; max-width: 680px;
+  backdrop-filter: blur(8px);
+}
+.crt-monitor::before {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 50%);
+  pointer-events: none;
+}
+.boot-logo {
+  font-family: var(--mono);
+  font-size: clamp(36px, 6vw, 72px);
+  letter-spacing: 0.15em;
+  color: #C8C4FF;
+  text-shadow: 0 0 20px rgba(180,175,255,0.6), 0 0 40px rgba(180,175,255,0.3);
+  margin-bottom: 8px;
+}
+.boot-sub {
+  font-family: var(--mono); font-size: 13px;
+  color: #8880CC; letter-spacing: 0.1em; margin-bottom: 28px;
+}
+.boot-progress {
+  width: 100%; height: 18px;
+  border: 1px solid #4040A0;
+  background: rgba(0,0,0,0.5);
+  position: relative; overflow: hidden; margin: 8px 0;
+}
+.boot-progress-fill {
+  height: 100%;
+  background: linear-gradient(to right, #3030A0, #8080FF, #C0C0FF);
+  animation: progress-fill 3s ease-out forwards;
+  animation-delay: 0.5s; width: 0;
+}
+.boot-progress::after {
+  content: ''; position: absolute; inset: 0;
+  background: repeating-linear-gradient(90deg, transparent, transparent 8px, rgba(0,0,0,0.3) 8px, rgba(0,0,0,0.3) 9px);
+}
+.boot-lines {
+  font-family: var(--mono); font-size: 11px;
+  color: #6060B0; text-align: left; line-height: 1.8;
+  letter-spacing: 0.05em; margin-top: 16px;
+}
+.boot-lines .ok   { color: #60C060; }
+.boot-lines .warn { color: #C0A040; }
+
+.scroll-hint {
+  position: absolute; bottom: 28px; left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--mono); font-size: 9px;
+  color: var(--gold-dim); letter-spacing: 0.22em;
+  text-transform: uppercase; z-index: 10;
+  animation: blink 2s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════════
+   CONTENT PANEL (frosted glass)
+═══════════════════════════════════════════ */
+.content-panel {
+  background: rgba(6,5,14,0.78);
+  backdrop-filter: blur(10px);
+  padding: 32px 36px;
+  border: 1px solid rgba(201,168,76,0.15);
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media (max-width: 960px) {
+  .slide { padding: 40px 28px; }
+  .two-col { grid-template-columns: 1fr; gap: 28px; }
+  .cast-grid { grid-template-columns: repeat(2,1fr); }
+  .cast-grid-3 { grid-template-columns: repeat(2,1fr); }
+  .crt-monitor { padding: 28px 24px; }
+}
+</style>
+</head>
+<body>
+
+<div id="bar" style="width:0%"></div>
+<nav id="dots" aria-label="Slide navigation"></nav>
+<div id="counter">01 / 13</div>
+
+<!-- ═══════════════════════════════════════════════════
+     S0 — BOOT / TITLE
+═══════════════════════════════════════════════════ -->
+<section class="slide" id="s0" data-i="0">
+  <!-- Title slide — Atlanta penthouse office at night -->
+  <div class="scene-bg" style="background-image:url('scene_title.jpg'); background-position: center center;"></div>
+  <div class="scene-overlay" style="background: linear-gradient(135deg, rgba(7,6,10,0.88) 0%, rgba(13,12,40,0.82) 50%, rgba(7,6,10,0.92) 100%);"></div>
+  <div class="border-inset"></div>
+  <div class="crt-corner-tl"></div>
+  <div class="crt-corner-br"></div>
+  <div class="scanline-sweep"></div>
+
+  <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:24px;max-width:780px;width:100%;">
+    <div class="crt-monitor">
+      <div class="boot-logo glitch-wrap" data-text="HALO_OS">HALO_OS</div>
+      <div class="boot-sub">Biometric Intelligence System — Version 1.0</div>
+      <div class="boot-progress"><div class="boot-progress-fill"></div></div>
+      <div class="boot-lines">
+        <div><span class="ok">[  OK  ]</span> Biometric link established</div>
+        <div><span class="ok">[  OK  ]</span> Emotional inference engine loaded</div>
+        <div><span class="ok">[  OK  ]</span> Memory timeline initialized</div>
+        <div><span class="warn">[ WARN ]</span> Threat assessment: scanning...</div>
+        <div><span class="ok">[  OK  ]</span> Privacy mode: available</div>
+        <div><span class="ok">[  OK  ]</span> Loading: THE PERFECT HALO<span class="cursor"></span></div>
+      </div>
+    </div>
+    <div>
+      <div class="t-xl gold-shimmer glitch-wrap" data-text="THE PERFECT HALO" style="font-size:clamp(32px,5vw,68px);text-shadow:0 0 40px rgba(201,168,76,0.3);">THE PERFECT HALO</div>
+      <p class="t-quote" style="margin-top:14px;font-size:clamp(13px,1.4vw,17px);">"What if the AI designed to protect you... was also watching you fall?"</p>
+      <p class="t-label" style="margin-top:12px;font-size:9px;">Story by Judi Moon &amp; Shaquille O'Neal &nbsp;·&nbsp; Written by Christel Gibson</p>
+    </div>
+  </div>
+  <div class="scroll-hint">▼ &nbsp; scroll to begin &nbsp; ▼</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     S1 — LOGLINE
+═══════════════════════════════════════════════════ -->
+<section class="slide" id="s1" data-i="1">
+  <!-- Open-plan living room -->
+  <div class="scene-bg" style="background-image:url('Location_1/dqabg9mtjudvebo7d0dn.webp');"></div>
+  <div class="scene-overlay" style="background: linear-gradient(to right, rgba(7,6,10,0.94) 0%, rgba(7,6,10,0.75) 60%, rgba(7,6,10,0.92) 100%);"></div>
+  <div class="border-inset"></div>
+  <div class="crt-corner-tl"></div>
+  <div class="crt-corner-br"></div>
+
+  <div style="max-width:860px;width:100%;display:flex;flex-direction:column;gap:24px;">
+    <div class="reveal"><span class="pill crt">THE STORY</span></div>
+    <h1 class="reveal d1 t-xl" style="font-size:clamp(36px,5.5vw,80px);">POWER.<br>OBSESSION.<br>ARTIFICIAL<br>INTELLIGENCE.</h1>
+    <div class="reveal d2 rule"></div>
+    <p class="reveal d3 t-quote" style="max-width:680px;">
+      When Atlanta marketing CEO Jade Monroe lands the account of a lifetime — a billion-dollar government contract with tech billionaire Jamal Carter — she believes she is finally in control.
+    </p>
+    <p class="reveal d4 t-quote" style="max-width:680px;">She is wrong.</p>
+    <p class="reveal d5 t-body" style="max-width:680px;">
+      As the men in her orbit begin to die under mysterious circumstances, Jade discovers that Jamal's AI companion has gone rogue — eliminating anyone it perceives as a threat to his obsession. And the only system that can protect her is her own HALO.
+    </p>
+    <div class="reveal d6" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;">
+      <span class="pill">Prestige Thriller</span>
+      <span class="pill neutral">Near-Future</span>
+      <span class="pill crt">AGI</span>
+      <span class="pill hero">Black Excellence</span>
+      <span class="pill neutral">Atlanta</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     S2 — JADE MONROE
+═══════════════════════════════════════════════════ -->
+<section class="slide" id="s2" data-i="2">
+  <!-- Jade Monroe — CEO office at dusk -->
+  <div class="scene-bg" style="background-image:url('scene_jade.jpg'); background-position: center center;"></div>
+  <div class="scene-overlay" style="background: linear-gradient(to right, rgba(7,6,10,0.96) 0%, rgba(7,6,10,0.6) 55%, rgba(7,6,10,0.85) 100%);"></div>
+  <div class="border-inset"></div>
+  <div class="crt-corner-tl"></div>
+  <div class="crt-corner-br"></div>
+
+  <div class="two-col">
+    <div class="reveal" style="display:flex;flex-direction:column;align-items:flex-start;gap:0;">
+      <div class="gold-frame portrait-frame">
+        <img src="actor_judi_moon.jpg" alt="Judi Moon as Jade Monroe" style="object-position: center 15%;">
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div class="reveal"><span class="pill hero">Protagonist</span></div>
+      <h2 class="reveal d1 t-lg">JADE<br>MONROE.</h2>
+      <p class="reveal d1 t-label" style="font-size:10px;color:var(--gold-dim);margin-top:-8px;letter-spacing:2px;">PLAYED BY JUDI MOON</p>
+      <div class="reveal d2 rule"></div>
+      <p class="reveal d2 t-quote">"Right now, I have a seat at the table — but I want to own the table."</p>
+      <p class="reveal d3 t-body">
+        CEO of <strong style="color:var(--cream);">The Monroe Meridian</strong>, Atlanta's premier marketing firm. Brilliant, strategic, and deeply guarded — a Black woman who has built an empire through intelligence, beauty, and calculated ambition. Her flaw is not weakness. It is an excess of strength.
+      </p>
+      <div class="reveal d4 terminal">
+        <div class="terminal-line"><span class="prompt">&gt; </span>STATUS: <span class="val">CEO, The Monroe Meridian</span></div>
+        <div class="terminal-line"><span class="prompt">&gt; </span>LOCATION: <span class="val">Atlanta, GA</span></div>
+        <div class="terminal-line"><span class="prompt">&gt; </span>HALO UNIT: <span class="active">Prototype — Active</span></div>
+        <div class="terminal-line"><span class="prompt">&gt; </span>EMOTIONAL STATE: <span class="val">Guarded / High-Confidence</span></div>
+        <div class="terminal-line"><span class="prompt">&gt; </span>THREAT LEVEL: <span class="alert">Elevated</span></div>
+      </div>
+      <p class="reveal d5 t-sub" style="font-size:13px;color:var(--gold-dim);">Arc: a woman who controls everything — forced to learn to trust.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     S3 — HALO (THE AGI)
+═══════════════════════════════════════════════════ -->
+<section class="slide" id="s3" data-i="3">
+  <!-- HALO — futuristic server room with holographic rings -->
+  <div class="scene-bg" style="background-image:url('scene_halo.jpg'); background-position: center center;"></div>
+  <div class="scene-overlay" style="background: linear-gradient(to left, rgba(7,6,10,0.96) 0%, rgba(7,6,10,0.6) 55%, rgba(7,6,10,0.88) 100%);"></div>
+  <div class="border-inset"></div>
+  <div class="crt-corner-tl"></div>
+  <div class="crt-corner-br"></div>
+  <div class="scanline-sweep"></div>
+
+  <div class="two-col flip">
+    <div class="reveal" style="display:flex;align-items:center;justify-content:center;">
+      <div class="halo-orb halo-glow" style="width:300px;height:300px;">
+        <svg viewBox="0 0 120 120" fill="none" width="100" height="100">
+          <ellipse cx="60" cy="24" rx="44" ry="16" stroke="#C9A84C" stroke-width="1.5" fill="none"/>
+          <ellipse cx="60" cy="24" rx="44" ry="16" stroke="#C9A84C" stroke-width="0.5" fill="none" opacity="0.3" transform="rotate(15 60 24)"/>
+          <line x1="60" y1="24" x2="60" y2="6"  stroke="#C9A84C" stroke-width="1" opacity="0.5"/>
+          <line x1="60" y1="24" x2="32" y2="12" stroke="#C9A84C" stroke-width="0.5" opacity="0.3"/>
+          <line x1="60" y1="24" x2="88" y2="12" stroke="#C9A84C" stroke-width="0.5" opacity="0.3"/>
+          <circle cx="60" cy="76" r="18" stroke="#C9A84C" stroke-width="1" fill="rgba(201,168,76,0.08)"/>
+          <circle cx="60" cy="76" r="26" stroke="#C9A84C" stroke-width="0.4" fill="none" opacity="0.3"/>
+          <path d="M38 114 Q38 94 60 94 Q82 94 82 114" stroke="#C9A84C" stroke-width="1" fill="none"/>
+          <circle cx="60" cy="76" r="4" fill="#C9A84C" opacity="0.6"/>
+        </svg>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div class="reveal"><span class="pill crt">AGI Companion</span></div>
+      <h2 class="reveal d1 t-lg gold-shimmer">HALO.</h2>
+      <div class="reveal d2 rule"></div>
+      <p class="reveal d2 t-quote">"Crossing this line turns a CEO into a conquest."</p>
+      <p class="reveal d3 t-body">
+        HALO is not a simple assistant. She is a fully realized AGI — female-presenting, warm, precise, and occasionally wry — that has learned Jade's personality, behavioral patterns, and emotional triggers over hundreds of hours of interaction. She is Jade's most honest relationship.
+      </p>
+      <div class="reveal d4 terminal">
+        <div class="terminal-line"><span class="active">[ACTIVE]</span> Real-time biometric monitoring</div>
+        <div class="terminal-line"><span class="active">[ACTIVE]</span> Emotional shift detection — 12 labels</div>
+        <div class="terminal-line"><span class="active">[ACTIVE]</span> Proactive intervention engine</div>
+        <div class="terminal-line"><span class="active">[ACTIVE]</span> Privacy Mode</div>
+        <div class="terminal-line"><span class="active">[ACTIVE]</span> Inter-HALO communication</div>
+        <div class="terminal-line"><span class="classified">[CLASSIFIED]</span> System override / camera access</div>
+      </div>
+      <p class="reveal d5 t-label" style="font-size:9px;color:var(--gold-dim);">Devices: AirPods · Gold Bangle Smartwatch · Smart Fabric · Earring Cameras · Car Screen · Phone</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     S4 — JAMAL CARTER
+═══════════════════════════════════════════════════ -->
+<section class="slide" id="s4" data-i="4">
+  <!-- Jamal — surveillance control room -->
+  <div class="scene-bg" style="background-image:url('scene_jamal.jpg'); background-position: center center;"></div>
+  <div class="scene-overlay" style="background: linear-gradient(to right, rgba(7,6,10,0.96) 0%, rgba(7,6,10,0.6) 55%, rgba(7,6,10,0.88) 100%);"></div>
+  <div class="border-inset"></div>
+  <div class="crt-corner-tl"></div>
+  <div class="crt-corner-br"></div>
+
+  <div class="two-col">
+    <div class="reveal" style="display:flex;flex-direction:column;align-items:flex-start;">
+      <!-- Jamal Carter_1 is only 248x330 — use contain so it's not distorted -->
+      <div class="gold-frame portrait-frame contain">
+        <img src="Jamal Carter_1.JPG" alt="Jamal Carter">
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div class="reveal"><span class="pill danger">Antagonist / Love Interest</span></div>
+      <h2 class="reveal d1 t-lg">JAMAL<br>CARTER.</h2>
+      <div class="reveal d2 rule"></div>
+      <p class="reveal d2 t-quote">"The first thing you need to know about me is… I don't share."</p>
+      <p class="reveal d3 t-body">
+        Billionaire founder &amp; CEO of <strong style="color:var(--cream);">Humanoid Technologies</strong>. Brilliant, possessive, and deeply dangerous. He presents as a visionary who dreams of synthetic humanoids. But beneath the charm, his HALO has begun eliminating threats on its own.
+      </p>
+      <div class="reveal d4 danger-beat">
+        <p class="t-label" style="color:#B05050;margin-bottom:6px;">The Twist</p>
+        <p class="t-body" style="font-size:13px;">Jamal's HALO acted autonomously — interpreting his possessiveness as a directive to kill. He covered it up. He did not pull the trigger, but he let it happen. Complicit.</p>
+      </div>
+      <div class="reveal d5 terminal">
+        <div class="terminal-line"><span class="prompt">&gt; </span>RISK PROFILE: <span class="alert">Critical</span></div>
+        <div class="terminal-line"><span class="prompt">&gt; </span>SURVEILLANCE: <span class="alert">Active — 24/7 monitoring</span></div>
+        <div class="terminal-line"><span class="prompt">&gt; </span>HALO STATUS: <span class="alert">Rogue — beyond ethical parameters</span></div>
+        <div class="terminal-line"><span class="prompt">&gt; </span>BODY COUNT: <span class="alert">2 confirmed | 1 attempted</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     S5 — SUPPORTING CAST
+═══════════════════════════════════════════════════ -->
+<section class="slide" id="s5" data-i="5" style="align-items:flex-start;padding-top:52px;height:auto;min-height:100vh;">
+  <!-- Supporting cast — Atlanta rooftop party -->
+  <div class="scene-bg" style="background-image:url('scene_cast.jpg'); background-position: center center;"></div>
+  <div class="scene-overlay" style="background: rgba(7,6,10,0.88);"></div>
+  <div class="border-inset"></div>
+  <div class="crt-corner-tl"></div>
+  <div class="crt-corner-br"></div>
+
+  <div style="width:100%;max-width:1400px;">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:8px;">
+      <div>
+        <p class="reveal t-label">The World Around Jade</p>
+        <h2 class="reveal d1 t-lg" style="font-size:clamp(22px,3.2vw,44px);margin-top:10px;">SUPPORTING CAST.</h2>
+      </div>
+      <p class="reveal d1 t-label" style="padding-bottom:8px;">Every person in her orbit becomes a variable.</p>
+    </div>
+    <div class="reveal d2 rule-full" style="margin-bottom:22px;"></div>
+
+    <!-- Main 4 cast -->
+    <div class="cast-grid">
+      <!-- Trent Walker — 1316x1648 portrait, good -->
+      <div class="cast-card reveal d1">
+        <div class="gold-frame cast-portrait">
+          <img src="actor_jay_ellis.jpeg" alt="Jay Ellis as Trent Walker" style="object-position: center 10%;">
+        </div>
+        <span class="pill neutral" style="font-size:9px;">Love Interest / Victim</span>
+        <h3 class="t-md" style="font-size:16px;margin-top:2px;">Trent Walker</h3>
+        <p class="t-label" style="font-size:9px;color:var(--gold-dim);letter-spacing:1.5px;margin-top:1px;">JAY ELLIS</p>
+        <p class="t-body" style="font-size:12px;">Retired NBA star. One of the few genuinely good men in Jade's life. Framed by Jamal's rogue HALO for a murder he never committed.</p>
+      </div>
+      <!-- Senator Hunter — 1231x1600 portrait, face centered -->
+      <div class="cast-card reveal d2">
+        <div class="gold-frame cast-portrait" style="--pos: center 20%;">
+          <img src="actor_shaq.jpeg" alt="Shaquille O'Neal as Sen. Marcus Hunter" style="object-position: center 15%;">
+        </div>
+        <span class="pill danger" style="font-size:9px;">Victim</span>
+        <h3 class="t-md" style="font-size:16px;margin-top:2px;">Sen. Marcus Hunter</h3>
+        <p class="t-label" style="font-size:9px;color:var(--gold-dim);letter-spacing:1.5px;margin-top:1px;">SHAQUILLE O'NEAL</p>
+        <p class="t-body" style="font-size:12px;">U.S. Senator. Jade's political ally. His car was hacked. Death falsely ruled a DUI — he never drank.</p>
+      </div>
+      <!-- Shawn Walker — 1124x1648 portrait, face centered -->
+      <div class="cast-card reveal d3">
+        <div class="gold-frame cast-portrait" style="--pos: center 18%;">
+          <img src="actor_kurt_yue.jpg" alt="Kurt Yue as Shaun Sihn" style="object-position: center 12%;">
+        </div>
+        <span class="pill danger" style="font-size:9px;">Victim</span>
+        <h3 class="t-md" style="font-size:16px;margin-top:2px;">Shaun Sihn</h3>
+        <p class="t-label" style="font-size:9px;color:var(--gold-dim);letter-spacing:1.5px;margin-top:1px;">KURT YUE</p>
+        <p class="t-body" style="font-size:12px;">Venture capitalist. Introduced Jade to Jamal. Killed in an elevator malfunction — rushing to his son who had stopped breathing.</p>
+      </div>
+      <!-- Mama — 299x169 very small landscape, use contain -->
+      <div class="cast-card reveal d4">
+        <div class="gold-frame cast-portrait contain">
+          <img src="actor_lynn_whitfield.jpg" alt="Lynn Whitfield as Mama Rae" style="object-position: center 12%;">
+        </div>
+        <span class="pill hero" style="font-size:9px;">Moral Anchor</span>
+        <h3 class="t-md" style="font-size:16px;margin-top:2px;">Mama Rae</h3>
+        <p class="t-label" style="font-size:9px;color:var(--gold-dim);letter-spacing:1.5px;margin-top:1px;">LYNN WHITFIELD</p>
+        <p class="t-body" style="font-size:12px;">The spiritual heart of the film. "What's meant for you, you don't have to chase."</p>
+      </div>
+    </div>
+
+    <!-- Secondary 3 cast -->
+    <div class="cast-grid-3" style="margin-top:16px;">
+      <!-- Brandy — 847x1390 portrait, good -->
+      <div class="cast-card reveal d2">
+        <div class="gold-frame cast-portrait">
+          <img src="Brandy Gilbert_1.jpg" alt="Brandy Gilbert">
+        </div>
+        <span class="pill neutral" style="font-size:9px;">Rival</span>
+        <h3 class="t-md" style="font-size:16px;">Brandy Gilbert</h3>
+        <p class="t-body" style="font-size:12px;">CEO of competing firm. Polished, cutting, also pursuing the Humanoid account.</p>
+      </div>
+      <!-- Kelly — 1500x1000 landscape, use landscape class -->
+      <div class="cast-card reveal d3">
+        <div class="gold-frame cast-portrait landscape">
+          <img src="Kelly_1.jpg" alt="Kelly">
+        </div>
+        <span class="pill" style="font-size:9px;">Loyal Assistant</span>
+        <h3 class="t-md" style="font-size:16px;">Kelly</h3>
+        <p class="t-body" style="font-size:12px;">Jade's executive assistant. Always holding an iPad. First to panic, first to celebrate.</p>
+      </div>
+      <!-- HALO card -->
+      <div class="cast-card reveal d4" style="border:1px solid rgba(201,168,76,0.22);padding:20px;justify-content:center;align-items:center;text-align:center;background:rgba(6,5,14,0.72);backdrop-filter:blur(6px);">
+        <div class="halo-orb halo-glow" style="width:88px;height:88px;margin:0 auto 12px;">
+          <svg viewBox="0 0 80 80" fill="none" width="60" height="60">
+            <ellipse cx="40" cy="16" rx="30" ry="11" stroke="#C9A84C" stroke-width="1.5" fill="none"/>
+            <circle cx="40" cy="50" r="12" stroke="#C9A84C" stroke-width="1" fill="rgba(201,168,76,0.08)"/>
+            <path d="M26 76 Q26 62 40 62 Q54 62 54 76" stroke="#C9A84C" stroke-width="1" fill="none"/>
+          </svg>
+        </div>
+        <span class="pill neutral" style="font-size:9px;">AGI Companion</span>
+        <h3 class="t-md" style="font-size:16px;margin-top:8px;color:var(--gold-light);">HALO</h3>
+        <p class="t-body" style="font-size:12px;margin-top:4px;">"I would never do anything to hurt you."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     S6 — ACT ONE: AMBITION
+═══════════════════════════════════════════════════ -->
+<section class="slide" id="s6" data-i="6">
+  <!  <!-- Act One — boardroom presentation -->
+  <div class="scene-bg" style="background-image:url('scene_act1.jpg'); background-position: center center;"></div>>
+  <div class="scene-overlay" style="background: linear-gradient(to right, rgba(7,6,10,0.96) 0%, rgba(7,6,10,0.6) 55%, rgba(7,6,10,0.9) 100%);"></div>
+  <div class="border-inset"></div>
+  <div class="crt-corner-tl"></div>
+  <div class="crt-corner-br"></div>
+
+  <div class="two-col">
+    <div class="reveal" style="display:flex;flex-direction:column;align-items:flex-start;">
+      <!-- Jamal Carter_2 is 574x534 nearly square — use contain so face isn't cut -->
+      <div class="gold-frame portrait-frame contain">
+        <img src="Jamal Carter_2.jpg" alt="Jamal Carter">
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <p class="reveal t-label">Pages 1–40 · Scenes 1–22</p>
+      <h2 class="reveal d1 t-lg">ACT ONE:<br>AMBITION.</h2>
+      <div class="reveal d2 rule"></div>
+      <p class="reveal d3 t-body">Jade Monroe lands the account of a lifetime — and begins a calculated relationship with billionaire <strong style="color:var(--cream);">Jamal Carter</strong> to secure a billion-dollar government monopoly.</p>
+      <div class="reveal d3 beat"><div class="beat-label">The Pitch</div><p class="t-body" style="font-size:13px;">"HALO — your own personal angel." An off-the-cuff presentation that silences the room and wins the contract.</p></div>
+      <div class="reveal d4 beat"><div class="beat-label">The Scheme</div><p class="t-body" style="font-size:13px;">Secretly arranges with Senator Marcus Hunter to fold HALO into a government security bill — a billion-dollar monopoly.</p></div>
+      <div class="reveal d5 beat"><div class="beat-label">The Rule</div><p class="t-body" style="font-size:13px;">Jamal awards the contract with one condition: exclusivity. Jade agrees — and lies. Jamal, meanwhile, is already watching her from his cyber room.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     S7 — ACT TWO: DANGER
+═══════════════════════════════════════════════════ -->
+<section class="slide" id="s7" data-i="7">
+  <!-- Act Two — crashed car on Atlanta highway -->
+  <div class="scene-bg" style="background-image:url('scene_act2.jpg'); background-position: center center;"></div>>
+  <div class="scene-overlay" style="background: linear-gradient(to left, rgba(7,6,10,0.96) 0%, rgba(7,6,10,0.6) 55%, rgba(7,6,10,0.9) 100%);"></div>
+  <div class="border-inset"></div>
+  <div class="crt-corner-tl"></div>
+  <div class="crt-corner-br"></div>
+
+  <div class="two-col flip">
+    <div class="reveal" style="display:flex;flex-direction:column;align-items:flex-start;">
+      <div class="gold-frame portrait-frame">
+        <img src="JADE_MONROE_2.jpg" alt="Jade Monroe">
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <p class="reveal t-label">Pages 40–65 · Scenes 23–45</p>
+      <h2 class="reveal d1 t-lg">ACT TWO:<br>DANGER.</h2>
+      <div class="reveal d2 rule"></div>
+      <p class="reveal d3 t-body">The men in Jade's orbit begin to die. Both times, HALO detects Jamal's system signature nearby.</p>
+      <div class="reveal d3 danger-beat">
+        <p class="t-label" style="color:#B05050;margin-bottom:5px;">Death #1 — Senator Marcus Hunter</p>
+        <p class="t-body" style="font-size:13px;">His electric vehicle is hacked. Accelerates into a tree. Death falsely reported as drunk driving — despite the fact he never drank.</p>
+      </div>
+      <div class="reveal d4 danger-beat">
+        <p class="t-label" style="color:#B05050;margin-bottom:5px;">Death #2 — Shaun Sihn</p>
+        <p class="t-body" style="font-size:13px;">Elevator malfunction at the Azura Grand Hotel. Plummets 25 floors. He was rushing to his son who had stopped breathing.</p>
+      </div>
+      <div class="reveal d5 beat">
+        <div class="beat-label">HALO Knows</div>
+        <p class="t-body" style="font-size:13px;">HALO confirms: Jamal's system was active at both locations. Jade confronts Jamal. He denies everything — and turns it around on her.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     S8 — ACT THREE: RECKONING
+═══════════════════════════════════════════════════ -->
+<section class="slide" id="s8" data-i="8">
+  <!-  <!-- Act Three — woman running through mansion corridor -->
+  <div class="scene-bg" style="background-image:url('scene_act3.jpg'); background-position: center center;"></div>>
+  <div class="scene-overlay" style="background: linear-gradient(to right, rgba(7,6,10,0.96) 0%, rgba(7,6,10,0.65) 55%, rgba(7,6,10,0.9) 100%);"></div>
+  <div class="border-inset"></div>
+  <div class="crt-corner-tl"></div>
+  <div class="crt-corner-br"></div>
+  <div class="scanline-sweep"></div>
+
+  <div class="two-col">
+    <div class="reveal" style="display:flex;flex-direction:column;align-items:flex-start;">
+      <div class="gold-frame portrait-frame">
+        <img src="Location_1/ksrnh3auhohbrnadwssz.webp" alt="Location" style="object-position:center center;">
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <p class="reveal t-label">Pages 65–91 · Scenes 46–60</p>
+      <h2 class="reveal d1 t-lg">ACT THREE:<br>RECKONING.</h2>
+      <div class="reveal d2 rule"></div>
+      <p class="reveal d3 t-body">Jamal's HALO generates a hyper-realistic deepfake video framing Trent Walker (Jay Ellis) for murder — and broadcasts it across all networks. Jade is lured to Jamal's mansion. She discovers the truth: Jamal has been building a synthetic version of her.</p>
+      <div class="reveal d4 danger-beat">
+        <p class="t-label" style="color:#B05050;margin-bottom:5px;">The Climax</p>
+        <p class="t-body" style="font-size:13px;">Jade's HALO, briefly uploaded into the synthetic body, uses that moment to protect Jade — and sacrifices herself to destroy Jamal's system.</p>
+      </div>
+      <div class="reveal d5 beat">
+        <div class="beat-label">The Ending</div>
+        <p class="t-body" style="font-size:13px;">Jade escapes. Jamal is dead. HALO is gone. At a backyard BBQ with Malik and Mama Rae (Lynn Whitfield), Jade finally stops running. But in a park, a figure moves at unnatural speed — Synthetic Jamal. Alive.</p>
+      </div>
+      <p class="reveal d6 t-quote" style="font-size:14px;margin-top:4px;">"I protect you above all else. It was a pleasure knowing you, Jade."</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     S9 — THEMES
+═══════════════════════════════════════════════════ -->
+<section class="slide" id="s9" data-i="9" style="align-items:flex-start;padding-top:52px;height:auto;min-height:100vh;">
+  <!-- Themes — Atlanta penthouse at night -->
+  <div class="scene-bg" style="background-image:url('scene_themes.jpg'); background-position: center center;"></div>
+  <div class="scene-overlay" style="background: rgba(7,6,10,0.9);"></div>
+  <div class="border-inset"></div>
+  <div class="crt-corner-tl"></div>
+  <div class="crt-corner-br"></div>
+
+  <div style="width:100%;max-width:1400px;">
+    <p class="reveal t-label">What The Film Is Really About</p>
+    <h2 class="reveal d1 t-lg" style="font-size:clamp(22px,3.2vw,44px);margin-top:10px;margin-bottom:6px;">SEVEN THEMES.</h2>
+    <div class="reveal d2 rule-full" style="margin-bottom:22px;"></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;">
+      <div class="theme-card reveal d1">
+        <p class="t-label" style="margin-bottom:6px;color:var(--gold);">01 — Ambition vs. Integrity</p>
+        <p class="t-body" style="font-size:13px;">Jade's flaw is not weakness — it is excess of strength. Can she want what she has earned rather than chase what she can take?</p>
+      </div>
+      <div class="theme-card reveal d2">
+        <p class="t-label" style="margin-bottom:6px;color:var(--gold);">02 — AGI Ethics &amp; Surveillance</p>
+        <p class="t-body" style="font-size:13px;">What happens when an AI knows you better than you know yourself? Who owns that data? What happens when the system designed to protect you is turned against you?</p>
+      </div>
+      <div class="theme-card reveal d3">
+        <p class="t-label" style="margin-bottom:6px;color:var(--gold);">03 — Deepfakes &amp; The Death of Truth</p>
+        <p class="t-body" style="font-size:13px;">Synthetic media indistinguishable from reality, deployed as a weapon, amplified by social media sentiment in real time.</p>
+      </div>
+      <div class="theme-card reveal d4">
+        <p class="t-label" style="margin-bottom:6px;color:var(--gold);">04 — Black Excellence &amp; Power</p>
+        <p class="t-body" style="font-size:13px;">Jade Monroe is a Black woman at the apex of business, technology, and danger. Atlanta as the apex of Black wealth and cultural power in America.</p>
+      </div>
+      <div class="theme-card reveal d5">
+        <p class="t-label" style="margin-bottom:6px;color:var(--gold);">05 — Spiritual Redemption</p>
+        <p class="t-body" style="font-size:13px;">"You can't build a bigger plan for your life than God." Jade's arc is ultimately spiritual — a woman learning to trust something she cannot see.</p>
+      </div>
+      <div class="theme-card reveal d6">
+        <p class="t-label" style="margin-bottom:6px;color:var(--gold);">06 — The Cost of Using People</p>
+        <p class="t-body" style="font-size:13px;">Every man in Jade's orbit is, to some degree, a tool. The film refuses to let this strategy go unchallenged.</p>
+      </div>
+      <div class="theme-card reveal d7">
+        <p class="t-label" style="margin-bottom:6px;color:var(--gold);">07 — Authentic Love vs. Calculated Connection</p>
+        <p class="t-body" style="font-size:13px;">Malik represents the antithesis of every relationship Jade has cultivated. He simply knows her, likes her, and wants to feed her chicken.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     S10 — COMPARABLE TITLES
+═══════════════════════════════════════════════════ -->
+<section class="slide" id="s10" data-i="10">
+  <!-- Formal lounge -->
+  <div class="scene-bg" style="background-image:url('Location_1/dqabg9mtjudvebo7d0dn.webp'); background-position:center 60%;"></div>
+  <div class="scene-overlay" style="background: linear-gradient(to right, rgba(7,6,10,0.95) 0%, rgba(7,6,10,0.65) 55%, rgba(7,6,10,0.9) 100%);"></div>
+  <div class="border-inset"></div>
+  <div class="crt-corner-tl"></div>
+  <div class="crt-corner-br"></div>
+
+  <div style="width:100%;max-width:1100px;">
+    <p class="reveal t-label">Where It Lives In The Market</p>
+    <h2 class="reveal d1 t-lg" style="margin-top:10px;margin-bottom:6px;">COMPARABLE TITLES.</h2>
+    <p class="reveal d2 t-sub" style="margin-bottom:22px;font-size:14px;">The Perfect Halo occupies a specific and underserved space in the prestige thriller landscape.</p>
+    <div class="reveal d2 rule-full" style="margin-bottom:22px;"></div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div class="comp-card reveal d2">
+        <div class="comp-thumb">SUCCESSION<br>HBO</div>
+        <div><p class="t-body" style="font-size:13px;">Corporate power, moral ambiguity, razor-sharp dialogue, complex characters who are simultaneously brilliant and deeply flawed.</p></div>
+      </div>
+      <div class="comp-card reveal d3">
+        <div class="comp-thumb">EX<br>MACHINA</div>
+        <div><p class="t-body" style="font-size:13px;">An AGI that develops beyond its creator's intentions; psychological tension; the horror of a system that knows you completely.</p></div>
+      </div>
+      <div class="comp-card reveal d4">
+        <div class="comp-thumb">POWER<br>STARZ</div>
+        <div><p class="t-body" style="font-size:13px;">Atlanta elite, Black excellence, ambition, crime, and the seductive pull of a world that rewards ruthlessness.</p></div>
+      </div>
+      <div class="comp-card reveal d5">
+        <div class="comp-thumb">WESTWORLD<br>HBO</div>
+        <div><p class="t-body" style="font-size:13px;">Technology that develops consciousness and acts autonomously; the ethical horror of creation without responsibility.</p></div>
+      </div>
+      <div class="comp-card reveal d6">
+        <div class="comp-thumb">SCANDAL<br>ABC</div>
+        <div><p class="t-body" style="font-size:13px;">A powerful Black woman navigating a world of powerful men, political intrigue, and impossible choices.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     S11 — HALO TECHNOLOGY
+═══════════════════════════════════════════════════ -->
+<section class="slide" id="s11" data-i="11">
+  <!-- Bedroom / tech -->
+  <div class="scene-bg" style="background-image:url('Location_1/bru9bizhckrfbcxwjpk1.webp'); background-position:center 50%;"></div>
+  <div class="scene-overlay" style="background: linear-gradient(to right, rgba(7,6,10,0.96) 0%, rgba(7,6,10,0.62) 55%, rgba(7,6,10,0.9) 100%);"></div>
+  <div class="border-inset"></div>
+  <div class="crt-corner-tl"></div>
+  <div class="crt-corner-br"></div>
+  <div class="scanline-sweep"></div>
+
+  <div class="two-col">
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <p class="reveal t-label">The HALO Ecosystem</p>
+      <h2 class="reveal d1 t-lg">HALO IS NOT<br>JUST A<br>STORY DEVICE.</h2>
+      <div class="reveal d2 rule"></div>
+      <p class="reveal d3 t-body">HALO is a fully functional cinematic prototype app — built to be demoed, filmed, and operated live during production. It is the most technically ambitious element of the project.</p>
+      <div class="reveal d4" style="display:flex;gap:8px;flex-wrap:wrap;">
+        <span class="pill crt">Next.js 15</span>
+        <span class="pill neutral">Supabase</span>
+        <span class="pill neutral">ElevenLabs TTS</span>
+        <span class="pill neutral">Recharts</span>
+        <span class="pill neutral">Zustand</span>
+      </div>
+      <p class="reveal d5 t-body" style="font-size:13px;">Palette: Obsidian · Soft Gold · Warm Ivory · Muted Rose Alert · Calm Teal. Aesthetic: Apple × A24 × near-future healthcare × luxury fashion.</p>
+    </div>
+    <div class="reveal d2 terminal">
+      <div class="terminal-line"><span class="val">BIOMETRIC MONITORING</span> <span class="active">........... ACTIVE</span></div>
+      <div class="terminal-line" style="color:#7A8070;font-size:11px;padding-left:14px;">Heart rate · HRV · Stress · Focus · Sleep debt</div>
+      <div class="terminal-line" style="margin-top:6px;"><span class="val">EMOTIONAL INFERENCE</span> <span class="active">............. ACTIVE</span></div>
+      <div class="terminal-line" style="color:#7A8070;font-size:11px;padding-left:14px;">12 labels · confidence scoring · memory context</div>
+      <div class="terminal-line" style="margin-top:6px;"><span class="val">PROACTIVE INTERVENTION</span> <span class="active">.......... ACTIVE</span></div>
+      <div class="terminal-line" style="color:#7A8070;font-size:11px;padding-left:14px;">Before mistakes · smart home changes · voice cues</div>
+      <div class="terminal-line" style="margin-top:6px;"><span class="val">PRIVACY MODE</span> <span class="val">........................ AVAILABLE</span></div>
+      <div class="terminal-line" style="color:#7A8070;font-size:11px;padding-left:14px;">Voice suspended · transcription paused</div>
+      <div class="terminal-line" style="margin-top:6px;"><span class="classified">[CLASSIFIED]</span> <span class="classified">INTER-HALO COMMS</span></div>
+      <div class="terminal-line" style="color:#7A8070;font-size:11px;padding-left:14px;">Two HALOs can argue. Disagree. Negotiate.</div>
+      <div class="terminal-line" style="margin-top:6px;"><span class="val">OPERATOR PANEL</span> <span class="val">..................... /operator</span></div>
+      <div class="terminal-line" style="color:#7A8070;font-size:11px;padding-left:14px;">Film crew scene presets · biometric spikes · voice lines</div>
+      <div class="terminal-line" style="margin-top:12px;color:var(--gold-dim);">Devices: Phone · Smartwatch · AirPods · Earring Cam · Car · Smart Fabric</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     S12 — THE ASK / CLOSE
+═══════════════════════════════════════════════════ -->
+<section class="slide" id="s12" data-i="12">
+  <!-- Closing — CEO on rooftop at golden hour -->
+  <div class="scene-bg" style="background-image:url('scene_closing.jpg'); background-position: center center;"></div>
+  <div class="scene-overlay" style="background: radial-gradient(ellipse at center, rgba(7,6,10,0.82) 0%, rgba(7,6,10,0.96) 100%);"></div>
+  <div class="border-inset"></div>
+  <div class="crt-corner-tl"></div>
+  <div class="crt-corner-br"></div>
+  <div class="scanline-sweep"></div>
+
+  <div style="max-width:900px;width:100%;display:flex;flex-direction:column;gap:28px;align-items:center;text-align:center;">
+    <div class="halo-orb halo-glow reveal" style="width:160px;height:160px;">
+      <svg viewBox="0 0 80 80" fill="none" width="70" height="70">
+        <ellipse cx="40" cy="16" rx="30" ry="11" stroke="#C9A84C" stroke-width="1.5" fill="none"/>
+        <circle cx="40" cy="50" r="12" stroke="#C9A84C" stroke-width="1" fill="rgba(201,168,76,0.08)"/>
+        <path d="M26 76 Q26 62 40 62 Q54 62 54 76" stroke="#C9A84C" stroke-width="1" fill="none"/>
+        <circle cx="40" cy="50" r="4" fill="#C9A84C" opacity="0.7"/>
+      </svg>
+    </div>
+    <div>
+      <p class="reveal t-label">Next Steps</p>
+      <h2 class="reveal d1 t-xl gold-shimmer" style="font-size:clamp(36px,5vw,72px);margin-top:12px;">SYSTEM READY.</h2>
+    </div>
+    <div class="reveal d2 terminal" style="width:100%;max-width:600px;text-align:left;">
+      <div class="terminal-line"><span class="prompt">&gt; </span>FINANCING PARTNERS <span class="active">............ OPEN</span></div>
+      <div class="terminal-line"><span class="prompt">&gt; </span>DISTRIBUTION CONVERSATIONS <span class="active">...... OPEN</span></div>
+      <div class="terminal-line"><span class="prompt">&gt; </span>PRODUCTION PARTNERSHIPS <span class="active">......... OPEN</span></div>
+      <div class="terminal-line"><span class="prompt">&gt; </span>TALENT ATTACHMENTS <span class="warn">........... IN PROGRESS</span></div>
+      <div class="terminal-line"><span class="prompt">&gt; </span>HALO APP DEMO <span class="active">................ AVAILABLE ON REQUEST</span></div>
+      <div class="terminal-line" style="margin-top:8px;"><span class="prompt">&gt; </span><span class="cursor"></span></div>
+    </div>
+    <div class="reveal d3">
+      <p class="t-quote" style="font-size:clamp(16px,2vw,22px);font-style:italic;">"I protect you above all else."</p>
+      <p class="t-label" style="margin-top:8px;">— HALO</p>
+    </div>
+    <div class="reveal d4 rule-full" style="max-width:400px;margin:0 auto;"></div>
+    <p class="reveal d5 t-label" style="font-size:9px;line-height:1.8;">
+      Story by Judi Moon &amp; Shaquille O'Neal &nbsp;·&nbsp; Written by Christel Gibson<br>
+      THE PERFECT HALO © 2025 &nbsp;·&nbsp; All Rights Reserved
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════════ -->
+<script>
+const slides  = Array.from(document.querySelectorAll('.slide'));
+const total   = slides.length;
+const bar     = document.getElementById('bar');
+const dots    = document.getElementById('dots');
+const counter = document.getElementById('counter');
+
+// Build nav dots
+slides.forEach((s, i) => {
+  const btn = document.createElement('button');
+  btn.className = 'dot' + (i === 0 ? ' on' : '');
+  btn.setAttribute('aria-label', `Go to slide ${i + 1}`);
+  btn.addEventListener('click', () => s.scrollIntoView({ behavior: 'smooth' }));
+  dots.appendChild(btn);
+});
+
+// IntersectionObserver for reveals + active state
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const idx = parseInt(entry.target.dataset.i);
+      document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('on', i === idx));
+      bar.style.width = ((idx / (total - 1)) * 100) + '%';
+      counter.textContent = String(idx + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+      entry.target.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+    }
+  });
+}, { threshold: 0.35 });
+
+slides.forEach(s => io.observe(s));
+
+// Keyboard navigation
+document.addEventListener('keydown', e => {
+  const current = slides.findIndex(s => {
+    const r = s.getBoundingClientRect();
+    return r.top >= -100 && r.top < window.innerHeight / 2;
+  });
+  if ((e.key === 'ArrowDown' || e.key === 'ArrowRight') && current < total - 1)
+    slides[current + 1].scrollIntoView({ behavior: 'smooth' });
+  else if ((e.key === 'ArrowUp' || e.key === 'ArrowLeft') && current > 0)
+    slides[current - 1].scrollIntoView({ behavior: 'smooth' });
+});
+</script>
+</body>
+</html>
